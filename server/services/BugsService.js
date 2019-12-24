@@ -7,6 +7,25 @@ class BugsService {
   async getAll () {
     return await _repository.find({})
   }
+
+  async createBug (rawData) {
+    return await _repository.create(rawData)
+  }
+
+  async getById (id) {
+    return await _repository.findById(id)
+  }
+
+  async editBugById (id, update) {
+    let data = await _repository.findOneAndUpdate({ _id: id }, update, {
+      new: true
+    })
+    return data
+  }
+
+  async closeBug (id) {
+    let data = await _repository.findOneAndUpdate({ _id: id }, { closed: true })
+  }
 }
 
 const bugsService = new BugsService()
