@@ -1,5 +1,6 @@
 import express from 'express'
 import bugsService from '../services/BugsService'
+import notesService from '../services/NotesService'
 
 export default class BugsController {
   constructor () {
@@ -7,10 +8,19 @@ export default class BugsController {
       .Router()
       .get('', this.getAll)
       .get('/:id', this.getById)
-      // .get('/:id/notes', this.getNotesByBug)
+      .get('/:id/notes', this.getNotesByBug)
       .post('', this.createBug)
       .put('/:id', this.editBugById)
       .delete('/:id', this.closeBug)
+  }
+
+  async getNotesByBug (req, res, next) {
+    try {
+      let data = await notesService.getNotesByBug(req.params.bug)
+      return res.send(data)
+    } catch (error) {
+      next(error)
+    }
   }
 
   async getAll (req, res, next) {
