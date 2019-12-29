@@ -1,5 +1,5 @@
-import mongoose from 'mongoose'
-const Schema = mongoose.Schema
+import mongoose from "mongoose";
+const Schema = mongoose.Schema;
 
 const Bug = new Schema(
   {
@@ -13,6 +13,6 @@ const Bug = new Schema(
     timestamps: true,
     toJSON: { virtuals: true }
   }
-)
+);
 
-export default Bug
+export default Bug;
