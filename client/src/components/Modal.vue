@@ -11,43 +11,61 @@
       </header>
       <section class="modal-body">
         <slot name="body">
-          <form class="new-bug-form" @submit.prevent="onSubmit">
+          <form class="new-bug-form" @submit.prevent="createBug">
             <div id="name-form">
               <label for="name">Your Name</label>
-              <input id="name" />
+              <input required id="name" type="text" v-model="newBug.reportedBy" />
             </div>
             <div id="title-form">
               <label for="title">Title</label>
-              <input id="title" />
+              <input required id="title" type="text" v-model="newBug.title" />
             </div>
             <p>
               <label for="description">Comments:</label>
-              <textarea id="description">
-Please give a detailed description of bug...</textarea
-              >
+              <textarea required id="description" v-model="newBug.description">
+Please give a detailed description of bug...</textarea>
             </p>
+            <footer>
+              <button type="submit" class="btn btn-success m-1">Submit</button>
+              <button type="button" class="btn btn-danger m-1" @click="close">Cancel</button>
+            </footer>
           </form>
         </slot>
       </section>
-      <footer class="modal-footer">
-        <slot name="footer">
-          <button type="submit" class="btn btn-success">Submit</button>
-          <button type="button" class="btn btn-danger" @click="close">
-            Cancel
-          </button>
-        </slot>
-      </footer>
     </div>
   </div>
 </template>
 
 <script>
+import bug from "../components/Bug";
+
 export default {
   name: "modal",
   methods: {
     close() {
       this.$emit("close");
+    },
+    createBug() {
+      let bug = { ...this.newBug };
+      this.$store.dispatch("createBug", bug);
+      this.newBug = {
+        title: "",
+        description: "",
+        reportedBy: ""
+      };
     }
+  },
+  data() {
+    return {
+      newBug: {
+        title: "",
+        description: "",
+        reportedBy: ""
+      }
+    };
+  },
+  components: {
+    bug
   }
 };
 </script>
@@ -75,7 +93,7 @@ template {
   display: flex;
   flex-direction: column;
   width: 67vh;
-  height: 50vh;
+  height: 60%;
   top: 20vh;
   left: 30vw;
 }
@@ -134,5 +152,10 @@ textarea {
   flex-direction: column;
   margin-bottom: 12pt;
   margin-top: 0;
+}
+
+footer {
+  display: flex;
+  justify-content: flex-end;
 }
 </style>
