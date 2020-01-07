@@ -27,6 +27,7 @@ Please give a detailed description of bug...</textarea>
             </p>
             <footer>
               <button type="submit" class="btn btn-success m-1">Submit</button>
+
               <button type="button" class="btn btn-danger m-1" @click="close">Cancel</button>
             </footer>
           </form>

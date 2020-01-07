@@ -26,14 +26,16 @@
       </div>
       <div class="col d-flex" id="status">
         <p>Status:</p>
-        <h5>{{bug.closed}}</h5>
+        <h5 v-bind:style=" bugClosed ? 'color: green;' : 'color: red;' ">{{bug.closed}}</h5>
       </div>
     </div>
     <div class="row">
       <div class="col">
         <div id="description">{{bug.description}}</div>
         <div id="btn-div">
-          <button type="button" class="btn btn-danger m-1">Close</button>
+          <router-link v-bind:class="{ bugClosed: true }" :to="{name: 'home'}">
+            <button type="button" class="btn btn-danger m-1" @click="closeBug">Close</button>
+          </router-link>
         </div>
       </div>
     </div>
@@ -94,9 +96,11 @@ export default {
   data() {
     return {
       isModalVisible: false,
+      bugClosed: false,
       newNote: {
         reportedBy: "",
-        content: ""
+        content: "",
+        bug: this.$store.state.activeBug._id
       }
     };
   },
@@ -112,8 +116,14 @@ export default {
       this.$store.dispatch("createNote", note);
       this.newNote = {
         reportedBy: "",
-        content: ""
+        content: "",
+        bug: this.$store.state.activeBug._id
       };
+    },
+    closeBug() {
+      let bug = this.bug;
+      this.$store.dispatch("closeBug", bug.id);
+      this.bugClosed = true;
     }
   }
 };

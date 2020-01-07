@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
+import router from "../router/index";
 
 let _api = axios.create({
   baseURL: "//localhost:3000/api"
@@ -51,6 +52,12 @@ export default new Vuex.Store({
     async getBugById({ commit, dispatch }, id) {
       let res = await _api.get("bugs/" + id);
       commit("setActiveBug", res.data);
+    },
+    async closeBug({ commit, dispatch }, id) {
+      if (confirm("Are you sure?")) {
+        await _api.delete("bugs/" + id);
+        dispatch("getBugs");
+      }
     }
   }
 });

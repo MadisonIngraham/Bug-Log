@@ -1,20 +1,12 @@
 <template>
-  <div class="bug">
+  <tr class="bug">
     <router-link :to="{name:'details', params: {id: bugData.id}}">
-      <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
-        <div class="card-header">
-          <h4>
-            <b>{{bugData.title}}</b>
-          </h4>
-          <div>Reported By: {{bugData.reportedBy}}</div>
-          <div>Closed: {{bugData.closed}}</div>
-        </div>
-        <div class="card-body">
-          <p class="card-text">{{bugData.description}}</p>
-        </div>
-      </div>
+      <td>{{bugData.title}}</td>
     </router-link>
-  </div>
+    <td>{{bugData.reportedBy}}</td>
+    <td v-bind:style=" bugData.closed ? 'color: red;' : 'color: green;' ">{{bugData.closed}}</td>
+    <td>{{bugData.updatedAt}}</td>
+  </tr>
 </template>
 
 <script>

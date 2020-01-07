@@ -16,10 +16,16 @@
       </div>
     </div>
 
-    <div class="row">
-      <div class="col d-flex justify-content-center" v-for="bug in bugs" :key="bug.id">
-        <bug :bugData="bug" />
-      </div>
+    <div class="row table-row">
+      <table>
+        <tr>
+          <th>Title</th>
+          <th>Reported By</th>
+          <th>Closed</th>
+          <th>Last Modified</th>
+        </tr>
+        <bug :bugData="bug" v-for="bug in bugs" :key="bug.id" />
+      </table>
     </div>
   </div>
 </template>
@@ -64,6 +70,16 @@ h4 {
   margin-left: 8vh;
 }
 
+table {
+  margin: 1%;
+}
+
+th {
+  width: 250px;
+  background-color: #2780e3;
+  color: white;
+}
+
 button {
   background-color: var(--primary);
   color: white;
@@ -74,6 +90,10 @@ button {
 #header {
   margin: 2%;
   top: 3vh;
+}
+
+.table-row {
+  justify-content: center;
 }
 
 #body {

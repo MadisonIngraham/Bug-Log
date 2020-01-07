@@ -1,29 +1,39 @@
-import express from 'express'
-import notesService from '../services/NotesService'
+import express from "express";
+import notesService from "../services/NotesService";
 
 export default class NotesController {
-  constructor () {
+  constructor() {
     this.router = express
       .Router()
-      .post('', this.createNote)
-      .delete('/:id', this.deleteNoteById)
+      .get("", this.getAll)
+      .post("", this.createNote)
+      .delete("/:id", this.deleteNoteById);
   }
 
-  async deleteNoteById (req, res, next) {
+  async deleteNoteById(req, res, next) {
     try {
-      await notesService.deleteNoteById(req.params.id)
-      return res.send('Successfully Deleted')
+      await notesService.deleteNoteById(req.params.id);
+      return res.send("Successfully Deleted");
     } catch (error) {
-      next(error)
+      next(error);
     }
   }
 
-  async createNote (req, res, next) {
+  async getAll(req, res, next) {
     try {
-      let data = await notesService.createNote(req.body)
-      return res.send(data)
+      let data = await notesService.getAll();
+      return res.send(data);
     } catch (error) {
-      next(error)
+      next(error);
+    }
+  }
+
+  async createNote(req, res, next) {
+    try {
+      let data = await notesService.createNote(req.body);
+      return res.send(data);
+    } catch (error) {
+      next(error);
     }
   }
 }
